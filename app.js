@@ -70,7 +70,10 @@ const itemImages = {
   "sweaters": [0, 0, 2], "changing-table": [1, 0, 2], "pad-covers": [2, 0, 2], "hydrophilic-cloths": [3, 0, 2],
   "burp-cloths": [0, 1, 2], "trash-bin": [1, 1, 2], "mattress": [2, 1, 2], "bottom-sheets": [3, 1, 2],
   "blankets": [0, 2, 2], "moltons": [1, 2, 2], "bath-support": [2, 2, 2], "nursing-bras": [3, 2, 2],
-  "milk-bottle": [0, 3, 2], "bottle-brush": [1, 3, 2]
+  "milk-bottle": [0, 3, 2], "bottle-brush": [1, 3, 2],
+  "baby-monitor": [0, 0, 3], "play-mat": [1, 0, 3], "bouncer": [2, 0, 3],
+  "toys": [0, 1, 3], "high-chair": [1, 1, 3], "rocking-chair": [2, 1, 3],
+  "carrier": [0, 2, 3], "changing-mat": [1, 2, 3], "stroller-accessories": [2, 2, 3]
 };
 const storageKey = "little-list-progress-v1";
 let state = loadState();
@@ -141,7 +144,7 @@ function renderItem(item, categoryId) {
     <div class="edit-panel" ${isEditing ? "" : "hidden"}><p>Why is this still open?</p><div class="reason-choices">${reasonButtons}</div>${quantityEditor}</div>` : "";
   const stateLine = canExplain ? `<div class="item-state"><span>${reasonText(item, current)}</span>${editor}</div>` : "";
   const image = itemImages[id];
-  const thumbnail = image ? `<span class="item-thumbnail ${image[2] === 2 ? "sprite-2" : ""}" role="img" aria-label="Illustration of ${name}" style="--image-x:${image[0]};--image-y:${image[1]}"></span>` : "";
+  const thumbnail = image ? `<span class="item-thumbnail ${image[2] ? `sprite-${image[2]}` : ""}" role="img" aria-label="Illustration of ${name}" style="--image-x:${image[0]};--image-y:${image[1]}"></span>` : "";
   return `<article class="item ${image ? "has-image" : ""} ${isResolved(id) ? "is-resolved" : ""}" data-id="${id}" data-category="${categoryId}" data-priority="${priority}" data-name="${name.toLowerCase()}">
     <button class="status-dot" type="button" aria-label="${isResolved(id) ? "Mark" : "Mark"} ${name} ${isResolved(id) ? "as incomplete" : "as completed"}"></button>
     ${thumbnail}
