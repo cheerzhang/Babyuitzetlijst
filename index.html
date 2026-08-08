@@ -19,8 +19,12 @@
 </head>
 <body>
   <header class="hero">
-    <nav class="nav" aria-label="Main navigation">
-      <span class="mini-label">Baby essentials</span>
+    <nav class="nav" aria-label="Main navigation" data-i18n-aria="mainNavigation">
+      <span class="mini-label" data-i18n="babyEssentials">Baby essentials</span>
+      <div class="language-switcher" role="group" aria-label="Choose language" data-i18n-aria="chooseLanguage">
+        <button class="language-option active" type="button" data-language="en" aria-pressed="true">EN</button>
+        <button class="language-option" type="button" data-language="nl" aria-pressed="false">NL</button>
+      </div>
     </nav>
 
     <div class="hero-copy" id="top">
@@ -30,42 +34,42 @@
     <section class="progress-card" aria-labelledby="progressTitle">
       <div class="progress-topline">
         <div>
-          <p class="progress-label" id="progressTitle">Overall progress</p>
+          <p class="progress-label" id="progressTitle" data-i18n="overallProgress">Overall progress</p>
           <p class="progress-detail" id="progressDetail">0 of 47 items resolved</p>
         </div>
         <strong id="progressPercent">0%</strong>
       </div>
-      <div class="progress-track" role="progressbar" aria-label="Shopping progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+      <div class="progress-track" role="progressbar" aria-label="Shopping progress" data-i18n-aria="shoppingProgress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
         <span id="progressBar"></span>
       </div>
     </section>
   </header>
 
   <main>
-    <section class="toolbar" aria-label="List tools">
-      <div class="filters" role="group" aria-label="Filter checklist">
-        <button class="filter active" type="button" data-filter="all">All</button>
-        <button class="filter" type="button" data-filter="needed">Still needed</button>
-        <button class="filter" type="button" data-filter="must">Must-have</button>
-        <button class="filter" type="button" data-filter="resolved">Resolved</button>
+    <section class="toolbar" aria-label="List tools" data-i18n-aria="listTools">
+      <div class="filters" role="group" aria-label="Filter checklist" data-i18n-aria="filterChecklist">
+        <button class="filter active" type="button" data-filter="all" data-i18n="all">All</button>
+        <button class="filter" type="button" data-filter="needed" data-i18n="stillNeeded">Still needed</button>
+        <button class="filter" type="button" data-filter="must" data-i18n="mustHave">Must-have</button>
+        <button class="filter" type="button" data-filter="resolved" data-i18n="resolved">Resolved</button>
       </div>
     </section>
 
     <div class="section-heading">
       <div>
-        <p class="eyebrow">Your checklist</p>
-        <h2>Shop by section</h2>
+        <p class="eyebrow" data-i18n="yourChecklist">Your checklist</p>
+        <h2 data-i18n="shopBySection">Shop by section</h2>
       </div>
       <button class="text-button" id="toggleSections" type="button">Collapse all</button>
     </div>
 
     <div id="checklist" class="checklist" aria-live="polite"></div>
-    <p class="empty-state" id="emptyState" hidden>No matching items. Try another search or filter.</p>
+    <p class="empty-state" id="emptyState" hidden data-i18n="emptyState">No matching items. Try another filter.</p>
   </main>
 
   <footer>
     <span class="brand"><span class="brand-mark">L</span> Luca Shopping list</span>
-    <p>Made for tiny beginnings and big days out.</p>
+    <p data-i18n="footerText">Made for tiny beginnings and big days out.</p>
   </footer>
 
 </body>

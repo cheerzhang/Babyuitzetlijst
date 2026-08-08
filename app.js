@@ -62,6 +62,60 @@ const categories = [
   ]}
 ];
 
+const translations = {
+  en: {
+    babyEssentials: "Baby essentials", mainNavigation: "Main navigation", chooseLanguage: "Choose language",
+    overallProgress: "Overall progress", shoppingProgress: "Shopping progress", listTools: "List tools",
+    filterChecklist: "Filter checklist", all: "All", stillNeeded: "Still needed", mustHave: "Must-have",
+    resolved: "Resolved", yourChecklist: "Your checklist", shopBySection: "Shop by section",
+    collapseAll: "Collapse all", expandAll: "Expand all", emptyState: "No matching items. Try another filter.",
+    footerText: "Made for tiny beginnings and big days out.", items: "items", item: "item",
+    ofItemsResolved: (done, total) => `${done} of ${total} items resolved`, completed: "Completed",
+    boughtOf: (quantity, total) => `Bought ${quantity} of ${total}`, planningRent: "Planning to rent",
+    notStarted: "Not started", buyLater: "Buy later", optional: "Optional", rentable: "Rentable",
+    boughtPartially: "Bought partially", whyOpen: "Why is this still open?", quantityBought: "Quantity bought",
+    edit: "Edit", close: "Close", illustration: name => `Illustration of ${name}`,
+    markComplete: name => `Mark ${name} as completed`, markIncomplete: name => `Mark ${name} as incomplete`
+  },
+  nl: {
+    babyEssentials: "Babybenodigdheden", mainNavigation: "Hoofdnavigatie", chooseLanguage: "Kies taal",
+    overallProgress: "Totale voortgang", shoppingProgress: "Voortgang boodschappenlijst", listTools: "Lijstopties",
+    filterChecklist: "Checklist filteren", all: "Alles", stillNeeded: "Nog nodig", mustHave: "Onmisbaar",
+    resolved: "Afgerond", yourChecklist: "Jouw checklist", shopBySection: "Winkelen per categorie",
+    collapseAll: "Alles inklappen", expandAll: "Alles uitklappen", emptyState: "Geen passende items. Probeer een ander filter.",
+    footerText: "Gemaakt voor een klein begin en grote dagen samen.", items: "items", item: "item",
+    ofItemsResolved: (done, total) => `${done} van ${total} items afgerond`, completed: "Afgerond",
+    boughtOf: (quantity, total) => `${quantity} van ${total} gekocht`, planningRent: "Van plan te huren",
+    notStarted: "Nog niet begonnen", buyLater: "Later kopen", optional: "Optioneel", rentable: "Te huur",
+    boughtPartially: "Deels gekocht", whyOpen: "Waarom staat dit nog open?", quantityBought: "Aantal gekocht",
+    edit: "Bewerken", close: "Sluiten", illustration: name => `Illustratie van ${name}`,
+    markComplete: name => `${name} als afgerond markeren`, markIncomplete: name => `${name} als niet afgerond markeren`
+  }
+};
+
+const dutchCategories = {
+  clothes: "Babykleding", diapers: "Verschonen", bed: "Voor de babykamer", bath: "In bad",
+  feeding: "Borstvoeding", home: "Handig voor thuis", travel: "Onderweg"
+};
+const dutchItems = {
+  "bodysuits":"Rompers", "socks":"Paar sokjes", "hats":"Babymutsjes", "sweaters":"Babytruitjes", "cardigan":"Vestje of jasje",
+  "changing-table":"Commode", "changing-pad":"Aankleedkussen", "pad-covers":"Aankleedkussenhoezen", "hydrophilic-cloths":"Hydrofiele doeken",
+  "disposable-diapers":"Pakken wegwerpluiers", "washcloths":"Hydrofiele washandjes", "burp-cloths":"Spuugdoekjes", "diaper-cream":"Luiercrème",
+  "baby-wipes":"Babydoekjes", "washable-diapers":"Wasbare luiers", "trash-bin":"Afvalemmer", "mattress":"Matras", "cot":"Wieg of ledikant",
+  "bottom-sheets":"Onder- of hoeslakens", "sleeping-bags":"Slaapzakken", "blankets":"Dekens", "moltons":"Molton matrasbeschermers", "baby-nail-file":"Babynagelvijl",
+  "baby-bath":"Babybadje of tummy tub", "bath-towels":"Grote badhanddoeken of badcapes", "hairbrush":"Kleine haarborstel of kam", "shampoo":"Babyshampoo en wasgel",
+  "baby-oil":"Babyolie", "bath-support":"Badsteun", "nursing-bras":"Voedingsbeha's", "breast-pads":"Zoogkompressen", "nipple-cream":"Tepelcrème",
+  "nursing-pillow":"Voedingskussen", "breast-pump":"Borstkolf", "milk-bottle":"Fles voor afgekolfde melk", "bottle-brush":"Flessenborstel",
+  "baby-monitor":"Babyfoon", "play-mat":"Speelkleed", "bouncer":"Wipstoel", "toys":"Speelgoed en knuffels", "high-chair":"Kinderstoel", "rocking-chair":"Schommelstoel",
+  "car-seat":"Autostoeltje voor baby's (0+)", "stroller":"Kinderwagen", "carrier":"Draagzak of draagdoek", "changing-mat":"Verschoonmatje", "stroller-accessories":"Regenaccessoires voor kinderwagen"
+};
+const dutchNotes = {
+  "Suggested: 6–8":"Advies: 6–8", "Size 50–56":"Maat 50–56", "Suggested: 4":"Advies: 4", "Suggested: 2":"Advies: 2",
+  "Suggested: 1":"Advies: 1", "10 × 60 × 60 cm":"10 × 60 × 60 cm", "2 × 100 × 100 cm":"2 × 100 × 100 cm",
+  "Suggested: 2 packs":"Advies: 2 pakken", "Newborn size":"Newbornmaat", "Co-sleeper":"Co-sleeper", "Rentable":"Te huur",
+  "Suggested: 2–3":"Advies: 2–3", "Suggested: 1 baby bath":"Advies: 1 babybadje", "Good to have":"Handig om te hebben", "i-Size (R129)":"i-Size (R129)"
+};
+
 const resolvedStatuses = new Set(["bought", "rented"]);
 const itemImages = {
   "bodysuits": [0, 0], "socks": [1, 0], "hats": [2, 0], "cardigan": [3, 0],
@@ -79,6 +133,8 @@ const itemImages = {
 };
 const storageKey = "little-list-progress-v1";
 const sectionStorageKey = "little-list-sections-v1";
+const languageStorageKey = "little-list-language-v1";
+let language = localStorage.getItem(languageStorageKey) === "nl" ? "nl" : "en";
 let state = loadState();
 let sectionState = loadSectionState();
 let activeFilter = "all";
@@ -93,6 +149,10 @@ function loadSectionState() {
 function saveState() { localStorage.setItem(storageKey, JSON.stringify(state)); }
 function saveSectionState() { localStorage.setItem(sectionStorageKey, JSON.stringify(sectionState)); }
 function allItems() { return categories.flatMap(category => category.items); }
+function t(key, ...args) { const value = translations[language][key]; return typeof value === "function" ? value(...args) : value; }
+function itemName(item) { return language === "nl" ? dutchItems[item[0]] : item[1]; }
+function categoryTitle(category) { return language === "nl" ? dutchCategories[category.id] : category.title; }
+function noteText(note) { return language === "nl" ? (dutchNotes[note] || note) : note; }
 function statusOptions(item) {
   const target = item[3];
   const rentable = item.slice(4).includes("Rentable");
@@ -110,12 +170,12 @@ function itemState(id) {
   return allowed ? saved : { status: "not-bought", quantity: 0 };
 }
 function isResolved(id) { return resolvedStatuses.has(itemState(id).status); }
-function labelFor(type) { return type === "must" ? "Must-have" : type === "later" ? "Buy later" : "Optional"; }
+function labelFor(type) { return type === "must" ? t("mustHave") : type === "later" ? t("buyLater") : t("optional"); }
 function reasonText(item, current) {
-  if (current.status === "bought" || current.status === "rented") return "Completed";
-  if (current.status === "partial") return `Bought ${current.quantity || 0} of ${item[3]}`;
-  if (current.status === "plan-rent") return "Planning to rent";
-  return "Not started";
+  if (current.status === "bought" || current.status === "rented") return t("completed");
+  if (current.status === "partial") return t("boughtOf", current.quantity || 0, item[3]);
+  if (current.status === "plan-rent") return t("planningRent");
+  return t("notStarted");
 }
 
 function render() {
@@ -127,36 +187,38 @@ function render() {
     return `<section class="category ${collapsed ? "collapsed" : ""}" data-category="${category.id}">
       <button class="category-header" type="button" aria-expanded="${!collapsed}">
         <span class="category-icon" aria-hidden="true">${category.icon}</span>
-        <span class="category-title"><strong>${category.title}</strong><span>${category.items.length} items</span></span>
-        <span class="category-progress">${resolved}/${category.items.length} resolved</span><span class="chevron" aria-hidden="true">⌄</span>
+        <span class="category-title"><strong>${categoryTitle(category)}</strong><span>${category.items.length} ${category.items.length === 1 ? t("item") : t("items")}</span></span>
+        <span class="category-progress">${t("ofItemsResolved", resolved, category.items.length)}</span><span class="chevron" aria-hidden="true">⌄</span>
       </button><div class="items">${itemMarkup}</div></section>`;
   }).join("");
   bindListEvents();
   applyFilters();
   updateProgress();
+  updateToggleLabel();
 }
 
 function renderItem(item, categoryId) {
-  const [id, name, priority, target, ...notes] = item;
+  const [id, , priority, target, ...notes] = item;
+  const name = itemName(item);
   const current = itemState(id);
   const tags = [`<span class="tag ${priority}">${labelFor(priority)}</span>`]
-    .concat(notes.filter(Boolean).map(note => `<span class="tag ${note === "Rentable" ? "rent" : ""}">${note}</span>`)).join("");
+    .concat(notes.filter(Boolean).map(note => `<span class="tag ${note === "Rentable" ? "rent" : ""}">${noteText(note)}</span>`)).join("");
   const rentable = notes.includes("Rentable");
   const canExplain = target > 1 || rentable;
   const reasonButtons = [
-    `<button type="button" class="reason-choice ${current.status === "not-bought" ? "active" : ""}" data-status="not-bought">Not started</button>`,
-    target > 1 ? `<button type="button" class="reason-choice ${current.status === "partial" ? "active" : ""}" data-status="partial">Bought partially</button>` : "",
-    rentable ? `<button type="button" class="reason-choice ${current.status === "plan-rent" ? "active" : ""}" data-status="plan-rent">Planning to rent</button>` : ""
+    `<button type="button" class="reason-choice ${current.status === "not-bought" ? "active" : ""}" data-status="not-bought">${t("notStarted")}</button>`,
+    target > 1 ? `<button type="button" class="reason-choice ${current.status === "partial" ? "active" : ""}" data-status="partial">${t("boughtPartially")}</button>` : "",
+    rentable ? `<button type="button" class="reason-choice ${current.status === "plan-rent" ? "active" : ""}" data-status="plan-rent">${t("planningRent")}</button>` : ""
   ].join("");
-  const quantityEditor = current.status === "partial" ? `<label class="partial-editor"><span>Quantity bought</span><span class="quantity-wrap"><input class="quantity-input" type="number" min="1" max="${target - 1}" inputmode="numeric" value="${current.quantity || 1}" data-id="${id}"><span>/ ${target}</span></span></label>` : "";
+  const quantityEditor = current.status === "partial" ? `<label class="partial-editor"><span>${t("quantityBought")}</span><span class="quantity-wrap"><input class="quantity-input" type="number" min="1" max="${target - 1}" inputmode="numeric" value="${current.quantity || 1}" data-id="${id}"><span>/ ${target}</span></span></label>` : "";
   const isEditing = editingId === id;
-  const editor = !isResolved(id) && canExplain ? `<button type="button" class="edit-reason" aria-expanded="${isEditing}">${isEditing ? "Close" : "Edit"}</button>
-    <div class="edit-panel" ${isEditing ? "" : "hidden"}><p>Why is this still open?</p><div class="reason-choices">${reasonButtons}</div>${quantityEditor}</div>` : "";
+  const editor = !isResolved(id) && canExplain ? `<button type="button" class="edit-reason" aria-expanded="${isEditing}">${isEditing ? t("close") : t("edit")}</button>
+    <div class="edit-panel" ${isEditing ? "" : "hidden"}><p>${t("whyOpen")}</p><div class="reason-choices">${reasonButtons}</div>${quantityEditor}</div>` : "";
   const stateLine = canExplain ? `<div class="item-state"><span>${reasonText(item, current)}</span>${editor}</div>` : "";
   const image = itemImages[id];
-  const thumbnail = image ? `<span class="item-thumbnail ${image[2] ? `sprite-${image[2]}` : ""}" role="img" aria-label="Illustration of ${name}" style="--image-x:${image[0]};--image-y:${image[1]}"></span>` : "";
+  const thumbnail = image ? `<span class="item-thumbnail ${image[2] ? `sprite-${image[2]}` : ""}" role="img" aria-label="${t("illustration", name)}" style="--image-x:${image[0]};--image-y:${image[1]}"></span>` : "";
   return `<article class="item ${image ? "has-image" : ""} ${isResolved(id) ? "is-resolved" : ""}" data-id="${id}" data-category="${categoryId}" data-priority="${priority}" data-name="${name.toLowerCase()}">
-    <button class="status-dot" type="button" aria-label="${isResolved(id) ? "Mark" : "Mark"} ${name} ${isResolved(id) ? "as incomplete" : "as completed"}"></button>
+    <button class="status-dot" type="button" aria-label="${isResolved(id) ? t("markIncomplete", name) : t("markComplete", name)}"></button>
     ${thumbnail}
     <div class="item-main"><p class="item-name">${name}</p><div class="tags">${tags}</div>${stateLine}</div>
   </article>`;
@@ -176,7 +238,7 @@ function bindListEvents() {
     panel.hidden = !panel.hidden;
     editingId = panel.hidden ? null : button.closest(".item").dataset.id;
     button.setAttribute("aria-expanded", String(!panel.hidden));
-    button.textContent = panel.hidden ? "Edit" : "Close";
+    button.textContent = panel.hidden ? t("edit") : t("close");
   }));
   document.querySelectorAll(".reason-choice").forEach(button => button.addEventListener("click", () => {
     const id = button.closest(".item").dataset.id;
@@ -209,7 +271,7 @@ function updateProgress() {
   const total = allItems().length;
   const resolved = allItems().filter(item => isResolved(item[0])).length;
   const percent = Math.round((resolved / total) * 100);
-  document.querySelector("#progressDetail").textContent = `${resolved} of ${total} items resolved`;
+  document.querySelector("#progressDetail").textContent = t("ofItemsResolved", resolved, total);
   document.querySelector("#progressPercent").textContent = `${percent}%`;
   document.querySelector("#progressBar").style.width = `${percent}%`;
   document.querySelector(".progress-track").setAttribute("aria-valuenow", percent);
@@ -237,8 +299,26 @@ function applyFilters() {
 function updateToggleLabel() {
   const categoriesShown = [...document.querySelectorAll(".category:not([hidden])")];
   const allCollapsed = categoriesShown.length && categoriesShown.every(category => category.classList.contains("collapsed"));
-  document.querySelector("#toggleSections").textContent = allCollapsed ? "Expand all" : "Collapse all";
+  document.querySelector("#toggleSections").textContent = allCollapsed ? t("expandAll") : t("collapseAll");
 }
+
+function updateStaticLanguage() {
+  document.documentElement.lang = language;
+  document.querySelectorAll("[data-i18n]").forEach(element => { element.textContent = t(element.dataset.i18n); });
+  document.querySelectorAll("[data-i18n-aria]").forEach(element => { element.setAttribute("aria-label", t(element.dataset.i18nAria)); });
+  document.querySelectorAll(".language-option").forEach(button => {
+    const active = button.dataset.language === language;
+    button.classList.toggle("active", active);
+    button.setAttribute("aria-pressed", String(active));
+  });
+}
+
+document.querySelectorAll(".language-option").forEach(button => button.addEventListener("click", () => {
+  language = button.dataset.language;
+  localStorage.setItem(languageStorageKey, language);
+  updateStaticLanguage();
+  render();
+}));
 
 document.querySelectorAll(".filter").forEach(button => button.addEventListener("click", () => {
   document.querySelector(".filter.active").classList.remove("active"); button.classList.add("active");
@@ -252,4 +332,5 @@ document.querySelector("#toggleSections").addEventListener("click", () => {
   saveSectionState();
   updateToggleLabel();
 });
+updateStaticLanguage();
 render();

@@ -33,6 +33,10 @@ button, select { cursor: pointer; }
 .nav, .hero-copy, .progress-card { position: relative; z-index: 1; }
 .nav { display: flex; justify-content: space-between; align-items: center; }
 .mini-label { color: var(--sage-dark); font-size: 11px; font-weight: 700; letter-spacing: .13em; text-transform: uppercase; }
+.language-switcher { display: flex; gap: 3px; padding: 3px; border: 1px solid rgba(77,113,97,.18); border-radius: 999px; background: rgba(255,255,255,.72); }
+.language-option { min-width: 38px; padding: 6px 9px; border: 0; border-radius: 999px; background: transparent; color: var(--muted); font-size: 11px; font-weight: 700; letter-spacing: .06em; }
+.language-option.active { background: var(--sage-dark); color: white; box-shadow: 0 2px 7px rgba(35,48,44,.16); }
+.language-option:focus-visible { outline: 3px solid rgba(77,113,97,.25); outline-offset: 2px; }
 .brand { display: inline-flex; align-items: center; gap: 10px; color: var(--ink); font-weight: 700; text-decoration: none; letter-spacing: -.02em; }
 .brand-mark { display: grid; place-items: center; width: 32px; height: 32px; border-radius: 50% 50% 46% 54%; background: var(--sage-dark); color: white; font: 600 18px/1 "Fraunces", serif; transform: rotate(-6deg); }
 .hero-copy { margin-top: 42px; max-width: 760px; }
