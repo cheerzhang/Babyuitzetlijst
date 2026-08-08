@@ -62,6 +62,12 @@ const categories = [
 ];
 
 const resolvedStatuses = new Set(["bought", "rented"]);
+const itemImages = {
+  "bodysuits": [0, 0], "socks": [1, 0], "hats": [2, 0], "cardigan": [3, 0],
+  "changing-pad": [0, 1], "disposable-diapers": [1, 1], "hydrophilic-cloths": [2, 1], "washable-diapers": [3, 1],
+  "cot": [0, 2], "sleeping-bags": [1, 2], "baby-bath": [2, 2], "bath-towels": [3, 2],
+  "nursing-pillow": [0, 3], "breast-pump": [1, 3], "car-seat": [2, 3], "stroller": [3, 3]
+};
 const storageKey = "little-list-progress-v1";
 let state = loadState();
 let activeFilter = "all";
@@ -131,8 +137,11 @@ function renderItem(item, categoryId) {
   const editor = !isResolved(id) && canExplain ? `<button type="button" class="edit-reason" aria-expanded="${isEditing}">${isEditing ? "Close" : "Edit"}</button>
     <div class="edit-panel" ${isEditing ? "" : "hidden"}><p>Why is this still open?</p><div class="reason-choices">${reasonButtons}</div>${quantityEditor}</div>` : "";
   const stateLine = canExplain ? `<div class="item-state"><span>${reasonText(item, current)}</span>${editor}</div>` : "";
-  return `<article class="item ${isResolved(id) ? "is-resolved" : ""}" data-id="${id}" data-category="${categoryId}" data-priority="${priority}" data-name="${name.toLowerCase()}">
+  const image = itemImages[id];
+  const thumbnail = image ? `<span class="item-thumbnail" role="img" aria-label="Illustration of ${name}" style="--image-x:${image[0]};--image-y:${image[1]}"></span>` : "";
+  return `<article class="item ${image ? "has-image" : ""} ${isResolved(id) ? "is-resolved" : ""}" data-id="${id}" data-category="${categoryId}" data-priority="${priority}" data-name="${name.toLowerCase()}">
     <button class="status-dot" type="button" aria-label="${isResolved(id) ? "Mark" : "Mark"} ${name} ${isResolved(id) ? "as incomplete" : "as completed"}"></button>
+    ${thumbnail}
     <div class="item-main"><p class="item-name">${name}</p><div class="tags">${tags}</div>${stateLine}</div>
   </article>`;
 }

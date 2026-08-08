@@ -76,11 +76,14 @@ main { max-width: 1120px; margin: 0 auto; padding: 50px 24px 90px; }
 .category.collapsed .items { display: none; }
 .items { border-top: 1px solid var(--line); }
 .item { display: grid; grid-template-columns: 34px minmax(0, 1fr); align-items: start; gap: 15px; padding: 19px 23px; border-bottom: 1px solid #e9e9e3; }
+.item.has-image { grid-template-columns: 34px 58px minmax(0, 1fr); }
 .item:last-child { border-bottom: 0; }
 .status-dot { width: 25px; height: 25px; padding: 0; border: 1.5px solid #b8bfba; border-radius: 50%; background: transparent; color: white; font-size: 15px; line-height: 1; }
 .item.is-resolved .status-dot { border-color: var(--sage-dark); background: var(--sage-dark); }
 .item.is-resolved .status-dot::after { content: "✓"; }
 .item-main { min-width: 0; }
+.item-thumbnail { width: 58px; height: 58px; margin-top: -4px; border: 1px solid #e7e7e1; border-radius: 12px; background-color: white; background-image: url("assets/baby-essentials-sprite.png"); background-size: 400% 400%; background-position: calc(var(--image-x) * 100% / 3) calc(var(--image-y) * 100% / 3); background-repeat: no-repeat; }
+.item.is-resolved .item-thumbnail { opacity: .45; }
 .item-name { margin: 0 0 7px; font-size: 15px; font-weight: 600; }
 .item.is-resolved .item-name { color: var(--muted); }
 .tags { display: flex; flex-wrap: wrap; gap: 5px; }
@@ -123,6 +126,8 @@ dialog p:not(.dialog-icon) { margin: 0; color: var(--muted); line-height: 1.6; }
   .filters { width: 100%; }
   .section-heading h2 { font-size: 34px; }
   .item { grid-template-columns: 28px 1fr; gap: 10px; padding: 17px; }
+  .item.has-image { grid-template-columns: 28px 50px minmax(0, 1fr); }
+  .item-thumbnail { width: 50px; height: 50px; }
   .category-header { padding: 18px 17px; }
   .category-progress { display: none; }
   footer { align-items: flex-start; flex-direction: column; }
