@@ -102,7 +102,8 @@ function statusOptions(item) {
   return options;
 }
 function itemState(id) {
-  const saved = state[id] || { status: "not-bought", quantity: 0 };
+  const candidate = state && typeof state === "object" ? state[id] : null;
+  const saved = candidate && typeof candidate === "object" ? candidate : { status: "not-bought", quantity: 0 };
   const item = allItems().find(entry => entry[0] === id);
   const allowed = statusOptions(item).some(([value]) => value === saved.status);
   return allowed ? saved : { status: "not-bought", quantity: 0 };
