@@ -66,6 +66,7 @@ const storageKey = "little-list-progress-v1";
 let state = loadState();
 let activeFilter = "all";
 let searchTerm = "";
+let editingId = null;
 
 function loadState() {
   try { return JSON.parse(localStorage.getItem(storageKey)) || {}; } catch { return {}; }
@@ -89,6 +90,12 @@ function itemState(id) {
 }
 function isResolved(id) { return resolvedStatuses.has(itemState(id).status); }
 function labelFor(type) { return type === "must" ? "Must-have" : type === "later" ? "Buy later" : "Optional"; }
+function reasonText(item, current) {
+  if (current.status === "bought" || current.status === "rented") return "Completed";
+  if (current.status === "partial") return `Bought ${current.quantity || 0} of ${item[3]}`;
+  if (current.status === "plan-rent") return "Planning to rent";
+  return "Not started";
+}
 
 function render() {
   const root = document.querySelector("#checklist");
@@ -112,12 +119,19 @@ function renderItem(item, categoryId) {
   const current = itemState(id);
   const tags = [`<span class="tag ${priority}">${labelFor(priority)}</span>`]
     .concat(notes.filter(Boolean).map(note => `<span class="tag ${note === "Rentable" ? "rent" : ""}">${note}</span>`)).join("");
-  const options = statusOptions(item).map(([value, label]) => `<option value="${value}" ${current.status === value ? "selected" : ""}>${label}</option>`).join("");
-  const quantity = target > 1 ? `<label class="quantity-wrap"><span class="sr-only">Quantity purchased</span><input class="quantity-input" type="number" min="0" max="${target}" inputmode="numeric" value="${current.quantity || 0}" data-id="${id}"><span>/ ${target}</span></label>` : "";
+  const rentable = notes.includes("Rentable");
+  const reasonButtons = [
+    `<button type="button" class="reason-choice ${current.status === "not-bought" ? "active" : ""}" data-status="not-bought">Not started</button>`,
+    target > 1 ? `<button type="button" class="reason-choice ${current.status === "partial" ? "active" : ""}" data-status="partial">Bought partially</button>` : "",
+    rentable ? `<button type="button" class="reason-choice ${current.status === "plan-rent" ? "active" : ""}" data-status="plan-rent">Planning to rent</button>` : ""
+  ].join("");
+  const quantityEditor = current.status === "partial" ? `<label class="partial-editor"><span>Quantity bought</span><span class="quantity-wrap"><input class="quantity-input" type="number" min="1" max="${target - 1}" inputmode="numeric" value="${current.quantity || 1}" data-id="${id}"><span>/ ${target}</span></span></label>` : "";
+  const isEditing = editingId === id;
+  const editor = !isResolved(id) ? `<button type="button" class="edit-reason" aria-expanded="${isEditing}">${isEditing ? "Close" : "Edit"}</button>
+    <div class="edit-panel" ${isEditing ? "" : "hidden"}><p>Why is this still open?</p><div class="reason-choices">${reasonButtons}</div>${quantityEditor}</div>` : "";
   return `<article class="item ${isResolved(id) ? "is-resolved" : ""}" data-id="${id}" data-category="${categoryId}" data-priority="${priority}" data-name="${name.toLowerCase()}">
-    <button class="status-dot" type="button" aria-label="Mark ${name} as bought"></button>
-    <div class="item-main"><p class="item-name">${name}</p><div class="tags">${tags}</div></div>
-    <div class="item-controls ${target > 1 ? "" : "no-quantity"}"><label><span class="sr-only">Status for ${name}</span><select class="status-select" data-id="${id}">${options}</select></label>${quantity}</div>
+    <button class="status-dot" type="button" aria-label="${isResolved(id) ? "Mark" : "Mark"} ${name} ${isResolved(id) ? "as incomplete" : "as completed"}"></button>
+    <div class="item-main"><p class="item-name">${name}</p><div class="tags">${tags}</div><div class="item-state"><span>${reasonText(item, current)}</span>${editor}</div></div>
   </article>`;
 }
 
@@ -128,11 +142,22 @@ function bindListEvents() {
     button.setAttribute("aria-expanded", String(!category.classList.contains("collapsed")));
     updateToggleLabel();
   }));
-  document.querySelectorAll(".status-select").forEach(select => select.addEventListener("change", event => updateItem(event.target.dataset.id, { status: event.target.value })));
+  document.querySelectorAll(".edit-reason").forEach(button => button.addEventListener("click", () => {
+    const panel = button.nextElementSibling;
+    panel.hidden = !panel.hidden;
+    editingId = panel.hidden ? null : button.closest(".item").dataset.id;
+    button.setAttribute("aria-expanded", String(!panel.hidden));
+    button.textContent = panel.hidden ? "Edit" : "Close";
+  }));
+  document.querySelectorAll(".reason-choice").forEach(button => button.addEventListener("click", () => {
+    const id = button.closest(".item").dataset.id;
+    const item = allItems().find(entry => entry[0] === id);
+    const quantity = button.dataset.status === "partial" ? (itemState(id).quantity || 1) : 0;
+    updateItem(id, { status: button.dataset.status, quantity });
+  }));
   document.querySelectorAll(".quantity-input").forEach(input => input.addEventListener("change", event => {
-    const quantity = Math.max(0, Math.min(Number(event.target.max), Number(event.target.value) || 0));
-    const status = quantity === 0 ? "not-bought" : quantity >= Number(event.target.max) ? "bought" : "partial";
-    updateItem(event.target.dataset.id, { quantity, status });
+    const quantity = Math.max(1, Math.min(Number(event.target.max), Number(event.target.value) || 1));
+    updateItem(event.target.dataset.id, { quantity, status: "partial" });
   }));
   document.querySelectorAll(".status-dot").forEach(button => button.addEventListener("click", () => {
     const id = button.closest(".item").dataset.id;
@@ -147,6 +172,7 @@ function updateItem(id, changes) {
   const item = allItems().find(entry => entry[0] === id);
   if (changes.status === "bought" && item[3]) state[id].quantity = item[3];
   if (["not-bought", "plan-rent", "rented"].includes(changes.status)) state[id].quantity = 0;
+  if (resolvedStatuses.has(changes.status)) editingId = null;
   saveState(); render();
 }
 
