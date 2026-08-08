@@ -25,7 +25,8 @@ const categories = [
     ["bottom-sheets", "Bottom or fitted sheets", "must", 2, "Suggested: 2–3"],
     ["sleeping-bags", "Sleeping bags", "must", 2, "Suggested: 2–3"],
     ["blankets", "Blankets", "must", 2, "Suggested: 2–3"],
-    ["moltons", "Molton mattress protectors", "must", 2, "Suggested: 2–3"]
+    ["moltons", "Molton mattress protectors", "must", 2, "Suggested: 2–3"],
+    ["baby-nail-file", "Baby nail file", "must"]
   ]},
   { id: "bath", title: "Bath time", icon: "≈", items: [
     ["baby-bath", "Baby bath or tummy tub", "must", 1, "Suggested: 1 baby bath"],
@@ -33,8 +34,7 @@ const categories = [
     ["hairbrush", "Small hairbrush or comb", "optional"],
     ["shampoo", "Baby shampoo and wash gel", "later"],
     ["baby-oil", "Baby oil", "later"],
-    ["bath-support", "Bath support", "optional", null, "Good to have"],
-    ["baby-nail-file", "Baby nail file", "must"]
+    ["bath-support", "Bath support", "optional", null, "Good to have"]
   ]},
   { id: "feeding", title: "Breastfeeding", icon: "◡", items: [
     ["nursing-bras", "Nursing bras", "must", 2, "Suggested: 2–3"],
