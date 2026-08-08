@@ -61,11 +61,7 @@ const categories = [
   ]}
 ];
 
-const statuses = [
-  ["not-bought", "Not bought"], ["partial", "Partially bought"], ["bought", "Bought in full"],
-  ["skip", "Decided not to buy"], ["plan-rent", "Planning to rent"], ["rented", "Rented"]
-];
-const resolvedStatuses = new Set(["bought", "skip", "rented"]);
+const resolvedStatuses = new Set(["bought", "rented"]);
 const storageKey = "little-list-progress-v1";
 let state = loadState();
 let activeFilter = "all";
@@ -76,7 +72,21 @@ function loadState() {
 }
 function saveState() { localStorage.setItem(storageKey, JSON.stringify(state)); }
 function allItems() { return categories.flatMap(category => category.items); }
-function itemState(id) { return state[id] || { status: "not-bought", quantity: 0 }; }
+function statusOptions(item) {
+  const target = item[3];
+  const rentable = item.slice(4).includes("Rentable");
+  const options = [["not-bought", "Not bought"]];
+  if (target > 1) options.push(["partial", "Partially bought"]);
+  options.push(["bought", "Bought"]);
+  if (rentable) options.push(["plan-rent", "Planning to rent"], ["rented", "Rented"]);
+  return options;
+}
+function itemState(id) {
+  const saved = state[id] || { status: "not-bought", quantity: 0 };
+  const item = allItems().find(entry => entry[0] === id);
+  const allowed = statusOptions(item).some(([value]) => value === saved.status);
+  return allowed ? saved : { status: "not-bought", quantity: 0 };
+}
 function isResolved(id) { return resolvedStatuses.has(itemState(id).status); }
 function labelFor(type) { return type === "must" ? "Must-have" : type === "later" ? "Buy later" : "Optional"; }
 
@@ -102,12 +112,12 @@ function renderItem(item, categoryId) {
   const current = itemState(id);
   const tags = [`<span class="tag ${priority}">${labelFor(priority)}</span>`]
     .concat(notes.filter(Boolean).map(note => `<span class="tag ${note === "Rentable" ? "rent" : ""}">${note}</span>`)).join("");
-  const options = statuses.map(([value, label]) => `<option value="${value}" ${current.status === value ? "selected" : ""}>${label}</option>`).join("");
-  const quantity = target ? `<label class="quantity-wrap"><span class="sr-only">Quantity purchased</span><input class="quantity-input" type="number" min="0" max="${target}" inputmode="numeric" value="${current.quantity || 0}" data-id="${id}"><span>/ ${target}</span></label>` : "";
+  const options = statusOptions(item).map(([value, label]) => `<option value="${value}" ${current.status === value ? "selected" : ""}>${label}</option>`).join("");
+  const quantity = target > 1 ? `<label class="quantity-wrap"><span class="sr-only">Quantity purchased</span><input class="quantity-input" type="number" min="0" max="${target}" inputmode="numeric" value="${current.quantity || 0}" data-id="${id}"><span>/ ${target}</span></label>` : "";
   return `<article class="item ${isResolved(id) ? "is-resolved" : ""}" data-id="${id}" data-category="${categoryId}" data-priority="${priority}" data-name="${name.toLowerCase()}">
     <button class="status-dot" type="button" aria-label="Mark ${name} as bought"></button>
     <div class="item-main"><p class="item-name">${name}</p><div class="tags">${tags}</div></div>
-    <div class="item-controls ${target ? "" : "no-quantity"}"><label><span class="sr-only">Status for ${name}</span><select class="status-select" data-id="${id}">${options}</select></label>${quantity}</div>
+    <div class="item-controls ${target > 1 ? "" : "no-quantity"}"><label><span class="sr-only">Status for ${name}</span><select class="status-select" data-id="${id}">${options}</select></label>${quantity}</div>
   </article>`;
 }
 
@@ -136,7 +146,7 @@ function updateItem(id, changes) {
   state[id] = { ...itemState(id), ...changes };
   const item = allItems().find(entry => entry[0] === id);
   if (changes.status === "bought" && item[3]) state[id].quantity = item[3];
-  if (["not-bought", "skip", "plan-rent", "rented"].includes(changes.status)) state[id].quantity = 0;
+  if (["not-bought", "plan-rent", "rented"].includes(changes.status)) state[id].quantity = 0;
   saveState(); render();
 }
 
