@@ -250,7 +250,4 @@ document.querySelector("#toggleSections").addEventListener("click", () => {
   saveSectionState();
   updateToggleLabel();
 });
-const resetDialog = document.querySelector("#resetDialog");
-document.querySelector("#resetButton").addEventListener("click", () => resetDialog.showModal());
-document.querySelector("#confirmReset").addEventListener("click", () => { state = {}; localStorage.removeItem(storageKey); render(); });
 render();
