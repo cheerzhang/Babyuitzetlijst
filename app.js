@@ -64,9 +64,13 @@ const categories = [
 const resolvedStatuses = new Set(["bought", "rented"]);
 const itemImages = {
   "bodysuits": [0, 0], "socks": [1, 0], "hats": [2, 0], "cardigan": [3, 0],
-  "changing-pad": [0, 1], "disposable-diapers": [1, 1], "hydrophilic-cloths": [2, 1], "washable-diapers": [3, 1],
+  "changing-pad": [0, 1], "disposable-diapers": [1, 1], "washable-diapers": [3, 1],
   "cot": [0, 2], "sleeping-bags": [1, 2], "baby-bath": [2, 2], "bath-towels": [3, 2],
-  "nursing-pillow": [0, 3], "breast-pump": [1, 3], "car-seat": [2, 3], "stroller": [3, 3]
+  "nursing-pillow": [0, 3], "breast-pump": [1, 3], "car-seat": [2, 3], "stroller": [3, 3],
+  "sweaters": [0, 0, 2], "changing-table": [1, 0, 2], "pad-covers": [2, 0, 2], "hydrophilic-cloths": [3, 0, 2],
+  "burp-cloths": [0, 1, 2], "trash-bin": [1, 1, 2], "mattress": [2, 1, 2], "bottom-sheets": [3, 1, 2],
+  "blankets": [0, 2, 2], "moltons": [1, 2, 2], "bath-support": [2, 2, 2], "nursing-bras": [3, 2, 2],
+  "milk-bottle": [0, 3, 2], "bottle-brush": [1, 3, 2]
 };
 const storageKey = "little-list-progress-v1";
 let state = loadState();
@@ -137,7 +141,7 @@ function renderItem(item, categoryId) {
     <div class="edit-panel" ${isEditing ? "" : "hidden"}><p>Why is this still open?</p><div class="reason-choices">${reasonButtons}</div>${quantityEditor}</div>` : "";
   const stateLine = canExplain ? `<div class="item-state"><span>${reasonText(item, current)}</span>${editor}</div>` : "";
   const image = itemImages[id];
-  const thumbnail = image ? `<span class="item-thumbnail" role="img" aria-label="Illustration of ${name}" style="--image-x:${image[0]};--image-y:${image[1]}"></span>` : "";
+  const thumbnail = image ? `<span class="item-thumbnail ${image[2] === 2 ? "sprite-2" : ""}" role="img" aria-label="Illustration of ${name}" style="--image-x:${image[0]};--image-y:${image[1]}"></span>` : "";
   return `<article class="item ${image ? "has-image" : ""} ${isResolved(id) ? "is-resolved" : ""}" data-id="${id}" data-category="${categoryId}" data-priority="${priority}" data-name="${name.toLowerCase()}">
     <button class="status-dot" type="button" aria-label="${isResolved(id) ? "Mark" : "Mark"} ${name} ${isResolved(id) ? "as incomplete" : "as completed"}"></button>
     ${thumbnail}

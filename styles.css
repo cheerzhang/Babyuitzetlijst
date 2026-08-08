@@ -89,6 +89,7 @@ main { max-width: 1120px; margin: 0 auto; padding: 50px 24px 90px; }
 .item.is-resolved .status-dot::after { content: "✓"; }
 .item-main { min-width: 0; }
 .item-thumbnail { width: 58px; height: 58px; margin-top: -4px; border: 1px solid #e7e7e1; border-radius: 12px; background-color: white; background-image: url("assets/baby-essentials-sprite.png"); background-size: 400% 400%; background-position: calc(var(--image-x) * 100% / 3) calc(var(--image-y) * 100% / 3); background-repeat: no-repeat; }
+.item-thumbnail.sprite-2 { background-image: url("assets/baby-essentials-sprite-2.png"); }
 .item.is-resolved .item-thumbnail { opacity: .45; }
 .item-name { margin: 0 0 7px; font-size: 15px; font-weight: 600; }
 .item.is-resolved .item-name { color: var(--muted); }
