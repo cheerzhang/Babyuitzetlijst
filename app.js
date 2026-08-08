@@ -76,14 +76,20 @@ const itemImages = {
   "carrier": [0, 2, 3], "changing-mat": [1, 2, 3], "stroller-accessories": [2, 2, 3]
 };
 const storageKey = "little-list-progress-v1";
+const sectionStorageKey = "little-list-sections-v1";
 let state = loadState();
+let sectionState = loadSectionState();
 let activeFilter = "all";
 let editingId = null;
 
 function loadState() {
   try { return JSON.parse(localStorage.getItem(storageKey)) || {}; } catch { return {}; }
 }
+function loadSectionState() {
+  try { return JSON.parse(localStorage.getItem(sectionStorageKey)) || {}; } catch { return {}; }
+}
 function saveState() { localStorage.setItem(storageKey, JSON.stringify(state)); }
+function saveSectionState() { localStorage.setItem(sectionStorageKey, JSON.stringify(sectionState)); }
 function allItems() { return categories.flatMap(category => category.items); }
 function statusOptions(item) {
   const target = item[3];
@@ -111,11 +117,12 @@ function reasonText(item, current) {
 
 function render() {
   const root = document.querySelector("#checklist");
-  root.innerHTML = categories.map(category => {
+  root.innerHTML = categories.map((category, categoryIndex) => {
     const resolved = category.items.filter(item => isResolved(item[0])).length;
     const itemMarkup = category.items.map(item => renderItem(item, category.id)).join("");
-    return `<section class="category" data-category="${category.id}">
-      <button class="category-header" type="button" aria-expanded="true">
+    const collapsed = sectionState[category.id] ?? categoryIndex > 0;
+    return `<section class="category ${collapsed ? "collapsed" : ""}" data-category="${category.id}">
+      <button class="category-header" type="button" aria-expanded="${!collapsed}">
         <span class="category-icon" aria-hidden="true">${category.icon}</span>
         <span class="category-title"><strong>${category.title}</strong><span>${category.items.length} items</span></span>
         <span class="category-progress">${resolved}/${category.items.length} resolved</span><span class="chevron" aria-hidden="true">⌄</span>
@@ -156,6 +163,8 @@ function bindListEvents() {
   document.querySelectorAll(".category-header").forEach(button => button.addEventListener("click", () => {
     const category = button.closest(".category");
     category.classList.toggle("collapsed");
+    sectionState[category.dataset.category] = category.classList.contains("collapsed");
+    saveSectionState();
     button.setAttribute("aria-expanded", String(!category.classList.contains("collapsed")));
     updateToggleLabel();
   }));
@@ -236,6 +245,8 @@ document.querySelector("#toggleSections").addEventListener("click", () => {
   const visible = [...document.querySelectorAll(".category:not([hidden])")];
   const collapse = !visible.every(category => category.classList.contains("collapsed"));
   visible.forEach(category => { category.classList.toggle("collapsed", collapse); category.querySelector(".category-header").setAttribute("aria-expanded", String(!collapse)); });
+  visible.forEach(category => { sectionState[category.dataset.category] = collapse; });
+  saveSectionState();
   updateToggleLabel();
 });
 const resetDialog = document.querySelector("#resetDialog");
