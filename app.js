@@ -34,7 +34,7 @@ const categories = [
     ["shampoo", "Baby shampoo and wash gel", "later"],
     ["baby-oil", "Baby oil", "later"],
     ["bath-support", "Bath support", "optional", null, "Good to have"],
-    ["baby-nail-file", "Baby nail file", "optional"]
+    ["baby-nail-file", "Baby nail file", "must"]
   ]},
   { id: "feeding", title: "Breastfeeding", icon: "◡", items: [
     ["nursing-bras", "Nursing bras", "must", 2, "Suggested: 2–3"],
