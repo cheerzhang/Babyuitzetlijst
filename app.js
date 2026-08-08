@@ -10,7 +10,7 @@ const categories = [
     ["changing-table", "Changing table", "optional"],
     ["changing-pad", "Changing pad", "must", 1],
     ["pad-covers", "Changing pad covers", "must", 2, "Suggested: 2"],
-    ["hydrophilic-cloths", "Hydrophilic cloths", "must", 12, "Suggested: 12"],
+    ["hydrophilic-cloths", "Hydrophilic cloths", "must", 12, "10 × 60 × 60 cm", "2 × 100 × 100 cm"],
     ["disposable-diapers", "Packs of disposable diapers", "must", 2, "Suggested: 2 packs", "Newborn size"],
     ["washcloths", "Hydrophilic washcloths", "must", 6, "Suggested: 6"],
     ["burp-cloths", "Burp cloths", "must", 6, "Suggested: 6"],
@@ -33,7 +33,8 @@ const categories = [
     ["hairbrush", "Small hairbrush or comb", "optional"],
     ["shampoo", "Baby shampoo and wash gel", "later"],
     ["baby-oil", "Baby oil", "later"],
-    ["bath-support", "Bath support", "optional", null, "Good to have"]
+    ["bath-support", "Bath support", "optional", null, "Good to have"],
+    ["baby-nail-file", "Baby nail file", "optional"]
   ]},
   { id: "feeding", title: "Breastfeeding", icon: "◡", items: [
     ["nursing-bras", "Nursing bras", "must", 2, "Suggested: 2–3"],
