@@ -74,7 +74,8 @@ const itemImages = {
   "milk-bottle": [0, 3, 2], "bottle-brush": [1, 3, 2],
   "baby-monitor": [0, 0, 3], "play-mat": [1, 0, 3], "bouncer": [2, 0, 3],
   "toys": [0, 1, 3], "high-chair": [1, 1, 3], "rocking-chair": [2, 1, 3],
-  "carrier": [0, 2, 3], "changing-mat": [1, 2, 3], "stroller-accessories": [2, 2, 3]
+  "carrier": [0, 2, 3], "changing-mat": [1, 2, 3], "stroller-accessories": [2, 2, 3],
+  "baby-nail-file": [0, 0, 4]
 };
 const storageKey = "little-list-progress-v1";
 const sectionStorageKey = "little-list-sections-v1";
