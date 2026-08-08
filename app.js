@@ -64,6 +64,7 @@ const categories = [
 
 const translations = {
   en: {
+    pageHeading: "Luca Shopping list", pageTitle: "Luca Shopping list", description: "A practical, private baby shopping checklist.",
     babyEssentials: "Baby essentials", mainNavigation: "Main navigation", chooseLanguage: "Choose language",
     overallProgress: "Overall progress", shoppingProgress: "Shopping progress", listTools: "List tools",
     filterChecklist: "Filter checklist", all: "All", stillNeeded: "Still needed", mustHave: "Must-have",
@@ -78,6 +79,7 @@ const translations = {
     markComplete: name => `Mark ${name} as completed`, markIncomplete: name => `Mark ${name} as incomplete`
   },
   nl: {
+    pageHeading: "Luca boodschappenlijst", pageTitle: "Luca boodschappenlijst", description: "Een praktische, persoonlijke checklist voor alle babybenodigdheden.",
     babyEssentials: "Babybenodigdheden", mainNavigation: "Hoofdnavigatie", chooseLanguage: "Kies taal",
     overallProgress: "Totale voortgang", shoppingProgress: "Voortgang boodschappenlijst", listTools: "Lijstopties",
     filterChecklist: "Checklist filteren", all: "Alles", stillNeeded: "Nog nodig", mustHave: "Onmisbaar",
@@ -304,6 +306,8 @@ function updateToggleLabel() {
 
 function updateStaticLanguage() {
   document.documentElement.lang = language;
+  document.title = t("pageTitle");
+  document.querySelector("#metaDescription").setAttribute("content", t("description"));
   document.querySelectorAll("[data-i18n]").forEach(element => { element.textContent = t(element.dataset.i18n); });
   document.querySelectorAll("[data-i18n-aria]").forEach(element => { element.setAttribute("aria-label", t(element.dataset.i18nAria)); });
   document.querySelectorAll(".language-option").forEach(button => {

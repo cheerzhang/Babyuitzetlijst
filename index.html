@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#f7f3ed">
-  <meta name="description" content="A practical, private baby shopping checklist.">
+  <meta name="description" content="A practical, private baby shopping checklist." id="metaDescription">
   <title>Luca Shopping list</title>
   <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
   <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
@@ -14,8 +14,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=20260808-3">
-  <script src="app.js?v=20260808-3" defer></script>
+  <link rel="stylesheet" href="styles.css?v=20260808-4">
+  <script src="app.js?v=20260808-4" defer></script>
 </head>
 <body>
   <header class="hero">
@@ -28,7 +28,7 @@
     </nav>
 
     <div class="hero-copy" id="top">
-      <h1>Luca Shopping list</h1>
+      <h1 data-i18n="pageHeading">Luca Shopping list</h1>
     </div>
 
     <section class="progress-card" aria-labelledby="progressTitle">
@@ -68,7 +68,7 @@
   </main>
 
   <footer>
-    <span class="brand"><span class="brand-mark">L</span> Luca Shopping list</span>
+    <span class="brand"><span class="brand-mark">L</span> <span data-i18n="pageHeading">Luca Shopping list</span></span>
     <p data-i18n="footerText">Made for tiny beginnings and big days out.</p>
   </footer>
 
