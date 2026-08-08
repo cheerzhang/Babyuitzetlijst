@@ -71,7 +71,6 @@ const itemImages = {
 const storageKey = "little-list-progress-v1";
 let state = loadState();
 let activeFilter = "all";
-let searchTerm = "";
 let editingId = null;
 
 function loadState() {
@@ -203,12 +202,11 @@ function applyFilters() {
     let categoryVisible = 0;
     category.querySelectorAll(".item").forEach(item => {
       const current = itemState(item.dataset.id);
-      const matchesSearch = item.dataset.name.includes(searchTerm);
       const matchesFilter = activeFilter === "all" ||
         (activeFilter === "needed" && !resolvedStatuses.has(current.status)) ||
         (activeFilter === "must" && item.dataset.priority === "must") ||
         (activeFilter === "resolved" && resolvedStatuses.has(current.status));
-      item.hidden = !(matchesSearch && matchesFilter);
+      item.hidden = !matchesFilter;
       if (!item.hidden) categoryVisible++;
     });
     category.hidden = categoryVisible === 0;
@@ -223,7 +221,6 @@ function updateToggleLabel() {
   document.querySelector("#toggleSections").textContent = allCollapsed ? "Expand all" : "Collapse all";
 }
 
-document.querySelector("#searchInput").addEventListener("input", event => { searchTerm = event.target.value.trim().toLowerCase(); applyFilters(); });
 document.querySelectorAll(".filter").forEach(button => button.addEventListener("click", () => {
   document.querySelector(".filter.active").classList.remove("active"); button.classList.add("active");
   activeFilter = button.dataset.filter; applyFilters();
